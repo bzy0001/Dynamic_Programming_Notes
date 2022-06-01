@@ -1,0 +1,7 @@
+/*
+    manacher algorism(MA) is a typical way to solve the longest Palindrome problem using idea of DP, with a time complexity of O(n) and space complexity of O(n).
+    In my understanding, MA's main idea is to REUSE.+
+    
+    it is an advanced algorism based on Expand Around Center algorism (i.e. expanding from centers to farest bound), with reusing previous outcomes.
+*/
+
