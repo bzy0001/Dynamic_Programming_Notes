@@ -4,4 +4,61 @@
     
     it is an advanced algorism based on Expand Around Center algorism (i.e. expanding from centers to farest bound), with reusing previous outcomes.
 */
-
+class Solution {
+    public String longestPalindrome(String s) {
+        int center = 0, mirror = 0, cur = 0, rightBound = 0;
+        int i = 0, hLen = 0;
+        List<Integer> hLens = new ArrayList<Integer>();
+        hLens.add(0);
+        StringBuilder re = new StringBuilder("");
+        StringBuilder result = new StringBuilder("");
+        /*add # between every two chars to eliminate 
+          differences of odd or even length of Palindrome*/
+          
+        StringBuilder M = new StringBuilder();
+        M.append("#");
+        for (i = 0; i < s.length(); i++){
+            M.append(s.charAt(i)).append("#");
+        }
+        int MLen = M.length();
+        
+        for (cur = 0; cur < MLen; cur++){
+            mirror = 2 * center - cur;
+            if (cur < rightBound){
+                hLen = Math.min(hLens.get(mirror), rightBound - cur);
+            }else{
+                hLen = 0;
+            }
+            
+            re = expand(M, cur, hLen);
+            
+            hLen = (re.length() - 1) / 2;
+            
+            hLens.add(hLen);
+            
+            if (re.length() > result.length()){
+                result = re;
+            }
+            if (cur + hLen > rightBound){
+                rightBound = cur + hLen;
+                center = cur;
+            }
+        }
+        for (i = 0; i < result.length(); i++){
+            if (result.charAt(i) == '#'){
+                result.deleteCharAt(i);
+            }
+        }
+        return result.toString();
+    }
+    
+    public StringBuilder expand(StringBuilder M, int cur, int hLen){
+        int len = M.length();
+        int left = cur - hLen, right = cur + hLen;
+        while(left >= 0 && right < len && M.charAt(left) == M.charAt(right))         {
+            left --;
+            right ++;
+        }
+        return new StringBuilder(M.substring(left + 1, right));
+    }
+}
